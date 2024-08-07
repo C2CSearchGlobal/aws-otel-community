@@ -25,10 +25,10 @@ exporters:
   logging:
     loglevel: debug
   awsxray:
-    region: us-west-2
+    region: us-east-2
 
   awsemf:
-    region: 'us-west-2'
+    region: 'us-east-2'
     dimension_rollup_option: "NoDimensionRollup"
 
 service:
