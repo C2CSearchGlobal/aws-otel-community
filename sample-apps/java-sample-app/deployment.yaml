@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-auto-instrumentation-sample-app
+  labels:
+    app: java-auto-instrumentation-sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-auto-instrumentation-sample-app
+  template:
+    metadata:
+      name: java-auto-instrumentation-sample-app
+      labels:
+        app: java-auto-instrumentation-sample-app
+    spec:
+      containers:
+        - name: java-auto-instrumentation-sample-app
+          image: 314945786589.dkr.ecr.us-east-2.amazonaws.com/java-auto-instrumentation-sample-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
+      
