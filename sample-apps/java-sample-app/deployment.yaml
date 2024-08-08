@@ -21,7 +21,7 @@ spec:
       containers:
         - name: java-sample-app
           image: 314945786589.dkr.ecr.us-east-2.amazonaws.com/java-auto-instrumentation-sample-app:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080

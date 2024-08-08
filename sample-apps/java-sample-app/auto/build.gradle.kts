@@ -1,4 +1,3 @@
-
 /*
  * Copyright The OpenTelemetry Authors
  *
@@ -38,13 +37,13 @@ val javaAgentVersion = javaAgent.split(":").get(2)
 
 jib {
     from {
-        image= "eclipse-temurin:17"
+        image = "eclipse-temurin:17"
     }
     to {
         image = "java-auto-instrumentation-sample-app"
     }
     extraDirectories {
-        paths { 
+        paths {
             path {
                 setFrom("$buildDir/javaagent")
             }
@@ -54,7 +53,14 @@ jib {
         ports = listOf("8080")
         jvmFlags = listOf(
             "-javaagent:aws-opentelemetry-agent-${javaAgentVersion}.jar",
-            "-Dotel.javaagent.extensions=${buildDir}/javaagent/extension.jar")
+            "-Dotel.javaagent.extensions=${buildDir}/javaagent/extension.jar"
+        )
+        environment = mapOf(
+            "OTEL_RESOURCE_ATTRIBUTES" to "service.namespace=sample,service.name=java-sample-app",
+            "OTEL_PROPAGATORS" to "tracecontext,baggage,xray",
+            "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT" to "http://adot-collector.other:4317",
+            "OTEL_METRICS_EXPORTER" to "none"
+        )
     }
 }
 
@@ -73,7 +79,8 @@ application {
     applicationDefaultJvmArgs = listOf(
         "-javaagent:$buildDir/javaagent/aws-opentelemetry-agent-${javaAgentVersion}.jar", // Use the Java agent when the application is run
         "-Dotel.service.name=java-sample-app",  // sets the name of the application in traces and metrics.
-        "-Dotel.javaagent.extensions=${buildDir}/javaagent/extension.jar")
+        "-Dotel.javaagent.extensions=${buildDir}/javaagent/extension.jar"
+    )
 }
 
 
